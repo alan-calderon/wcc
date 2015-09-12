@@ -1,0 +1,26 @@
+import java.io.IOException;
+
+import com.leapmotion.leap.Controller;
+import com.leapmotion.leap.Leap;
+
+public class Prueba {
+	public static void main(String[] args) {	
+			Thread hilo=new Thread(new Runnable() {				
+				@Override
+				public void run() {			
+					   IniciarLeapMotion leapMotion=new IniciarLeapMotion();
+					   Controller control =new Controller();
+					   System.out.println(leapMotion.setConnect());
+						   control.addListener(leapMotion);
+						   Hilos hilos=new Hilos(leapMotion.setConnect());						  
+							hilos.start();
+						     try {
+						            System.in.read();						 
+						        } catch (IOException e) {e.printStackTrace();
+						        }catch(Exception e){e.printStackTrace();}
+						        control.removeListener(leapMotion);						                						    					                             				  
+				}
+			});		
+			hilo.start();						
+	}
+}

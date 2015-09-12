@@ -1,0 +1,150 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package traductor;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.ArrayList;
+
+
+import javax.swing.*;
+
+import Test.Traductor;
+/**
+ *
+ * @author Alexia
+ */
+public class MyFrame extends JFrame  implements ActionListener,KeyListener{
+    JLabel hand_signs;
+    JPanel bot_frame;
+    TextArea text;
+    String message = "";
+    Font font = new Font("Times", Font.PLAIN, 40);
+    private ArrayList<String> lista=new ArrayList<>();
+
+    public MyFrame(){
+        super("HANDS_SIGNS");
+        setSize(800,600);
+        setLocation(250,80);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        startScreen();
+        setVisible(true);
+    	//Prueba prueba = new Prueba();
+    	//prueba.main();
+    }
+    
+    protected void MainFrame(){   
+      
+        setLayout(new GridLayout(2,1));
+        JPanel top_frame= new JPanel(new GridLayout(1,1));
+        add(top_frame);
+ 
+        bot_frame=new JPanel(null);
+        add(bot_frame);
+        bot_frame.setBackground(Color.orange);
+        
+        hand_signs =new JLabel();
+        this.hand_signs.setBounds(313,42,173,216);
+        bot_frame.add(this.hand_signs);
+        
+        text = new TextArea(2,20);
+        text.setFont(font);
+        text.addKeyListener(this);
+        text.setEditable(false);
+        top_frame.add(text);  
+        
+        JLabel logo = new JLabel();
+        ImageIcon logoImage = new ImageIcon("img/logo.png");
+        logo.setIcon(logoImage);
+        logo.setBounds(646,146,135,135);
+        bot_frame.add(logo);       
+     
+    }
+    
+    protected void startScreen(){
+        setLayout(new GridLayout(1,1));
+        Fondo frame= new Fondo();
+        add(frame);
+        
+        JButton boton = new JButton();
+        boton.setText("Iniciar");
+        boton.setPreferredSize(new Dimension(60,60));
+        boton.setMaximumSize(new Dimension(60,60));
+        boton.addActionListener(this);
+
+        frame.add(boton, BorderLayout.PAGE_END);
+    }
+   
+    
+     protected void procesaComando (){
+    	
+    	 
+    	
+    	 for (String string : lista) {
+			String path =  "Abecedario/";
+			path+=string+".png";
+			ImageIcon image = new ImageIcon(path);
+			this.hand_signs.setIcon(image);
+			if(message.length()%40 == 0 && message.length()>0)
+				message += "\n";
+			message+=string;
+			text.setText(message);
+			
+			System.out.println(string);
+		  
+		}
+     }
+     
+     protected void borrarCaracter(){
+         if(message.length()>0){
+             if(message.charAt(message.length() - 1) == '\n'){
+                  message=message.substring(0,message.length()-2);
+             }
+             else{
+                 message=message.substring(0,message.length()-1);
+             }                
+            text.setText(message);
+            hand_signs.setIcon(null);
+         }
+     }
+
+     protected void iniciarAplicacion(){
+     getContentPane().removeAll();
+     MainFrame();
+     
+     validate();
+     text.requestFocusInWindow();
+     
+     }
+     
+    @Override
+    public void actionPerformed(ActionEvent e) {        
+        iniciarAplicacion();
+    }
+    
+    @Override
+    public void keyTyped(KeyEvent e) {
+        String comando=""+e.getKeyChar();        
+        if(e.getKeyChar() == (char)8){
+            borrarCaracter();
+        }else {
+            procesaComando();
+        }        
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
+    
+}

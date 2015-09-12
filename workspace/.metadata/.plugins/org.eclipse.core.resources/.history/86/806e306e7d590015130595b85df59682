@@ -1,0 +1,51 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Test;
+
+import traductor.MyFrame;
+
+import java.io.IOException;
+
+import javax.management.RuntimeErrorException;
+
+import com.leapmotion.leap.Controller;
+
+import traductor.Hilos;
+import traductor.IniciarLeapMotion;
+/**
+ *
+ * @author Alexia
+ */
+public class Traductor {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // TODO code application logic here
+    	
+    	Thread hilo=new Thread(new Runnable() {				
+			@Override
+			public void run() {	
+				
+				   IniciarLeapMotion leapMotion=new IniciarLeapMotion();
+			       
+				   Controller control =new Controller();
+				   System.out.println(leapMotion.setConnect());
+					   control.addListener(leapMotion);
+					   Hilos hilos=new Hilos(leapMotion.setConnect());						  
+						hilos.start();
+					     try {
+					            System.in.read();						 
+					        } catch (IOException e) {e.printStackTrace();
+					        }catch(Exception e){e.printStackTrace();}
+					        control.removeListener(leapMotion);						                						    					                             				  
+			}
+		});		
+    	MyFrame ventana=new MyFrame();
+    }
+   
+}

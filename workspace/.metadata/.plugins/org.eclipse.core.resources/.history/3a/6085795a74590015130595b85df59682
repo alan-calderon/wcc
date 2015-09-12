@@ -1,0 +1,56 @@
+package traductor;
+import com.leapmotion.leap.Bone;
+import java.util.ArrayList;
+import com.leapmotion.leap.Controller;
+import com.leapmotion.leap.Finger;
+import com.leapmotion.leap.Frame;
+import com.leapmotion.leap.Gesture;
+import com.leapmotion.leap.Listener;
+import com.leapmotion.leap.Vector;
+import com.leapmotion.leap.Bone.Type;
+
+public class IniciarLeapMotion extends Listener  {
+private boolean connect=true;
+	public void OnInit(Controller control){
+		
+			
+
+		
+		
+        
+    
+    }
+public boolean setConnect(){
+	return this.connect;
+}	
+public void onConnect(Controller control){
+	 this.connect=true;
+ System.out.println("Conected to Motion System");
+
+	
+ control.enableGesture(Gesture.Type.TYPE_SWIPE);
+ control.enableGesture(Gesture.Type.TYPE_CIRCLE);
+ control.enableGesture(Gesture.Type.TYPE_KEY_TAP);
+ control.enableGesture(Gesture.Type.TYPE_SCREEN_TAP);
+    
+}
+public void onDisconnect(Controller control){
+
+    System.out.println("Desconectado");
+}
+public void onExit(Controller control){
+    System.out.println("Salir");}
+
+public void onFrame(Controller control){
+	Frame frame=control.frame();
+	Comparacion comparar=new Comparacion();
+	ArrayList<String> lista=comparar.getFunctions(frame);
+	for(String string:lista){System.out.println(string);}
+
+}
+
+
+
+	
+	
+}

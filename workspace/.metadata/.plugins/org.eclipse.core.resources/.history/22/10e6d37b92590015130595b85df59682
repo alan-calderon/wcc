@@ -1,0 +1,89 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Test;
+
+import traductor.MyFrame;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.management.RuntimeErrorException;
+
+import com.leapmotion.leap.Controller;
+
+
+import traductor.IniciarLeapMotion;
+/**
+ *
+ * @author Alexia
+ */
+public class Traductor {
+	public static  ArrayList<String> array = new ArrayList<String>();
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+   
+        try {
+           // Apertura del fichero y creacion de BufferedReader para poder
+           // hacer una lectura comoda (disponer del metodo readLine()).
+           archivo = new File ("TextoPrueba.txt");
+           fr = new FileReader (archivo);
+           br = new BufferedReader(fr);
+   
+           // Lectura del fichero
+           String linea;
+           while((linea=br.readLine())!=null)
+        	   array.add(linea); 
+           for(String asdfgh: array){
+         	  System.out.println(asdfgh);}
+        }
+         
+        catch(Exception e){
+           e.printStackTrace();
+        }finally{
+           // En el finally cerramos el fichero, para asegurarnos
+           // que se cierra tanto si todo va bien como si salta 
+           // una excepcion.
+           try{                    
+              if( null != fr ){   
+                 fr.close();     
+              }                  
+           }catch (Exception e2){ 
+              e2.printStackTrace();
+           }
+        }
+        // TODO code application logic here
+    	
+    	Thread hilo=new Thread(new Runnable() {				
+			@Override
+			public void run() {	
+				
+				 IniciarLeapMotion leapMotion=new IniciarLeapMotion();
+			
+				  MyFrame ventana=new MyFrame();
+				  
+				   Controller control =new Controller();
+			
+					   control.addListener(leapMotion);
+
+					     try {
+					            System.in.read();						 
+					        } catch (IOException e) {e.printStackTrace();
+					        }catch(Exception e){e.printStackTrace();}
+					        control.removeListener(leapMotion);						                						    					                             				  
+			}
+		});		
+    	hilo.start();
+    }
+   
+}

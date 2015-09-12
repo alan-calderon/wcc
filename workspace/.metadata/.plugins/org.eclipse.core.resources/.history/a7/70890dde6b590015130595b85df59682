@@ -1,0 +1,21 @@
+
+public class Hilos extends Thread {
+	private boolean var;
+	public Hilos(boolean inicio){
+		var=inicio;
+		
+		
+	}
+	public Hilos(){
+		
+		
+	}
+	
+public void run(){
+	if(var==true){
+System.out.println("Hola mundo");
+		
+	}
+	
+}
+}
